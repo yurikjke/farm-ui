@@ -1,0 +1,22 @@
+sudo: required
+language: generic
+services:
+  - docker
+
+before_install:
+  - docker build -t yurikjke/farm-ui -f Dockerfile.dev .
+
+# script:
+#   - docker run -e CI=true yurikjke/farm-ui npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: eu-central-1
+  app: farm-ui
+  env: FarmUi-env
+  bucket_name: elasticbeanstalk-eu-central-1-461684276931
+  bucket_path: farm-ui
+  on:
+    branch: develop
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
